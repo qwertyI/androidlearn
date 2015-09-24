@@ -9,4 +9,5 @@
     <string name="open_chat">打开对话界面</string>
     <string name="title_activity_lv">LvActivity</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="message_send_text">发送</string>
 </resources>
