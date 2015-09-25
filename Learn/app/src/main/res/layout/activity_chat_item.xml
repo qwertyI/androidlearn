@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:id="@+id/message_left_tv"
-            android:textColor="#fff"/>
+            android:textColor="#000000"/>
 
     </LinearLayout>
 
