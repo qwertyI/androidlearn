@@ -1,8 +1,10 @@
 package com.example.qwerty.learn;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
+import android.database.Cursor;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,15 +25,19 @@ import java.util.zip.Inflater;
 
 public class LvActivity extends Activity {
 
-    private List<Fruit> fruitList = new ArrayList<>();
+    private List<Contact> contactList = new ArrayList<>();
+    private static final String[] PHONES_PROJECT = {Phone.DISPLAY_NAME, Phone.NUMBER};
+
+    private static final int PHONE_DISPLAY_NAME_INDEX = 0;
+    private static final int PHONE_NUM_INDEX = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_lv);
-        InitFruit();
-        FruitAdapter adapter = new FruitAdapter(this, R.layout.activity_lv_item, fruitList);
+        getContacts();
+        FruitAdapter adapter = new FruitAdapter(this, R.layout.activity_lv_item, contactList);
         ListView fruit_lv = (ListView) findViewById(R.id.fruit_lv);
         fruit_lv.setAdapter(adapter);
         fruit_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,17 +49,17 @@ public class LvActivity extends Activity {
         });
     }
 
-    public class FruitAdapter extends ArrayAdapter<Fruit>{
+    public class FruitAdapter extends ArrayAdapter<Contact>{
         private int resourceId;
 
-        public FruitAdapter(Context context, int textViewResourceId, List<Fruit> objects){
+        public FruitAdapter(Context context, int textViewResourceId, List<Contact> objects){
             super(context, textViewResourceId, objects);
             resourceId = textViewResourceId;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup group){
-            Fruit fruit = getItem(position);
+            Contact contact = getItem(position);
             View view = convertView;
             ViewHolder viewHolder;
             if(view == null){
@@ -65,8 +71,8 @@ public class LvActivity extends Activity {
             }else {
                 viewHolder = (ViewHolder) view.getTag();
             }
-            viewHolder.fruitId.setText(fruit.getFruitId());
-            viewHolder.fruitName.setText(fruit.getFruitName());
+            viewHolder.fruitId.setText(contact.getContactName());
+            viewHolder.fruitName.setText(contact.getContactPhone());
             return view;
         }
     }
@@ -76,20 +82,32 @@ public class LvActivity extends Activity {
         TextView fruitName;
     }
 
-
-    public class Fruit{
-        private String fruitId;
-        private String fruitName;
-
-        public Fruit(String id, String name){
-            this.fruitId = id;
-            this.fruitName = name;
+    public void getContacts(){
+        ContentResolver contentResolver = getContentResolver();
+        Cursor PhoneCursor = contentResolver.query(Phone.CONTENT_URI, PHONES_PROJECT, null, null,null);
+        if (PhoneCursor != null){
+            while (PhoneCursor.moveToNext()){
+                String phoneNum = PhoneCursor.getString(PHONE_DISPLAY_NAME_INDEX);
+                String phoneName = PhoneCursor.getString(PHONE_NUM_INDEX);
+                InitContacts(phoneNum, phoneName);
+            }
         }
-        public String getFruitId(){
-            return fruitId;
+    }
+
+
+    public class Contact{
+        private String ContactPhone;
+        private String ContactName;
+
+        public Contact(String ContactPhone, String ContactName){
+            this.ContactPhone = ContactPhone;
+            this.ContactName = ContactName;
         }
-        public String getFruitName(){
-            return fruitName;
+        public String getContactPhone(){
+            return ContactPhone;
+        }
+        public String getContactName(){
+            return ContactName;
         }
     }
 
@@ -115,46 +133,9 @@ public class LvActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void InitFruit(){
-        Fruit apple = new Fruit(1111+"", "apple");
-        fruitList.add(apple);
-        Fruit apple1 = new Fruit(1111+"", "apple");
-        fruitList.add(apple1);
-        Fruit apple2 = new Fruit(1111+"", "apple");
-        fruitList.add(apple2);
-        Fruit apple3 = new Fruit(1111+"", "apple");
-        fruitList.add(apple3);
-        Fruit apple4 = new Fruit(1111+"", "apple");
-        fruitList.add(apple4);
-        Fruit apple5 = new Fruit(1111+"", "apple");
-        fruitList.add(apple5);
-        Fruit apple6 = new Fruit(1111+"", "apple");
-        fruitList.add(apple6);
-        Fruit apple7 = new Fruit(1111+"", "apple");
-        fruitList.add(apple7);
-        Fruit apple8 = new Fruit(1111+"", "apple");
-        fruitList.add(apple8);
-        Fruit apple9 = new Fruit(1111+"", "apple");
-        fruitList.add(apple9);
-        Fruit apple10 = new Fruit(1111+"", "apple");
-        fruitList.add(apple10);
-        Fruit apple11 = new Fruit(1111+"", "apple");
-        fruitList.add(apple11);
-        Fruit apple12 = new Fruit(1111+"", "apple");
-        fruitList.add(apple12);
-        Fruit apple13 = new Fruit(1111+"", "apple");
-        fruitList.add(apple13);
-        Fruit apple14 = new Fruit(1111+"", "apple");
-        fruitList.add(apple14);
-        Fruit apple15 = new Fruit(1111+"", "apple");
-        fruitList.add(apple15);
-        Fruit apple16 = new Fruit(1111+"", "apple");
-        fruitList.add(apple16);
-        Fruit apple17 = new Fruit(1111+"", "apple");
-        fruitList.add(apple17);
-        Fruit apple18 = new Fruit(1111+"", "apple");
-        fruitList.add(apple18);
-        Fruit apple19 = new Fruit(1111+"", "apple");
-        fruitList.add(apple19);
+    public void InitContacts(String phone, String name){
+        Contact contact = new Contact(phone, name);
+        contactList.add(contact);
     }
+
 }
