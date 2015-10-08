@@ -3,7 +3,9 @@ package com.example.qwerty.learn;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,8 +45,8 @@ public class LvActivity extends Activity {
         fruit_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position = position + 1;
-                Toast.makeText(LvActivity.this, "Click"+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactList.get(position).ContactPhone));
+                startActivity(intent);
             }
         });
     }
@@ -65,23 +67,29 @@ public class LvActivity extends Activity {
             if(view == null){
                 view = LayoutInflater.from(getContext()).inflate(resourceId,null);
                 viewHolder = new ViewHolder();
-                viewHolder.fruitId = (TextView) view.findViewById(R.id.fruit_id);
-                viewHolder.fruitName = (TextView) view.findViewById(R.id.fruit_name);
+                viewHolder.contactId = (TextView) view.findViewById(R.id.contact_id);
+                viewHolder.contactName = (TextView) view.findViewById(R.id.contact_name);
                 view.setTag(viewHolder);
             }else {
                 viewHolder = (ViewHolder) view.getTag();
             }
-            viewHolder.fruitId.setText(contact.getContactName());
-            viewHolder.fruitName.setText(contact.getContactPhone());
+            viewHolder.contactId.setText(contact.getContactName());
+            viewHolder.contactName.setText(contact.getContactPhone());
             return view;
         }
     }
 
     class ViewHolder{
-        TextView fruitId;
-        TextView fruitName;
+        TextView contactId;
+        TextView contactName;
     }
 
+    public void InitContacts(String phone, String name){
+        Contact contact = new Contact(phone, name);
+        contactList.add(contact);
+    }
+
+    //获取联系人的信息，具体可以获取到什么，需要在PHONES_PROJECT中注册
     public void getContacts(){
         ContentResolver contentResolver = getContentResolver();
         Cursor PhoneCursor = contentResolver.query(Phone.CONTENT_URI, PHONES_PROJECT, null, null,null);
@@ -90,11 +98,13 @@ public class LvActivity extends Activity {
                 String phoneNum = PhoneCursor.getString(PHONE_DISPLAY_NAME_INDEX);
                 String phoneName = PhoneCursor.getString(PHONE_NUM_INDEX);
                 InitContacts(phoneNum, phoneName);
+
             }
+            PhoneCursor.close();
         }
     }
 
-
+    //联系人类，包含电话号码和姓名，如果想要更多信息，可以在这里添加后，往PHONES_PROJECT注册
     public class Contact{
         private String ContactPhone;
         private String ContactName;
@@ -133,9 +143,6 @@ public class LvActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void InitContacts(String phone, String name){
-        Contact contact = new Contact(phone, name);
-        contactList.add(contact);
-    }
+
 
 }

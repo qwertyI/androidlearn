@@ -18,5 +18,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/open_chat_btn"
         android:text="@string/open_chat"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/open_save_file_btn"
+        android:text="@string/open_save_file"/>
 
 </LinearLayout>
