@@ -14,4 +14,14 @@
     <string name="title_activity_save_file">SaveFileActivity</string>
     <string name="save_file">保存文件</string>
     <string name="open_save_file">打开保存文件</string>
+    <string name="create_database">创建数据库</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
+    <string name="title_activity_database">DatabaseActivity</string>
+    <string name="open_database">进入数据库设置</string>
+    <string name="book_name">书名</string>
+    <string name="insert_book_data">向Book表插入数据</string>
+    <string name="insert_category_data">向Category中插入数据</string>
+    <string name="book_author">作者</string>
+    <string name="book_price">价格</string>
+    <string name="book_page">总页数</string>
 </resources>

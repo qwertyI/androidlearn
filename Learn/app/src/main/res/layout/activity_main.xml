@@ -24,4 +24,10 @@
         android:id="@+id/open_save_file_btn"
         android:text="@string/open_save_file"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/open_database_btn"
+        android:text="@string/open_database"/>
+
 </LinearLayout>
