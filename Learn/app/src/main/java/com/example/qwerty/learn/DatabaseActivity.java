@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,19 +69,17 @@ public class DatabaseActivity extends Activity implements OnClickListener{
     public void onClick(View view){
         switch (view.getId()){
             case R.id.insert_book_btn:
-                name = book_name_et.getText().toString();
-                author = book_author_et.getText().toString();
-                price = Double.parseDouble(book_price_et.getText().toString());
-                page = Integer.parseInt(book_page_et.getText().toString());
-                if (name == "" || price+"" == "" || author == "" || page+"" == ""){
-                    Toast.makeText(this, "请填写完整内容", Toast.LENGTH_SHORT).show();
-                }else {
-//                    Cursor_Position = cursor.getPosition();
-//                    cursor = null;
+                if (Check_Empty()){
+                    name = book_name_et.getText().toString();
+                    author = book_author_et.getText().toString();
+                    price = Double.parseDouble(book_price_et.getText().toString());
+                    page = Integer.parseInt(book_page_et.getText().toString());
                     ContentValues values = new ContentValues();
                     Insert_Book(values, name, author, price, page);
                     Toast.makeText(this, "Insert Success", Toast.LENGTH_SHORT).show();
                 }
+//                    Cursor_Position = cursor.getPosition();
+//                    cursor = null;
                 break;
             case R.id.show_data_btn:
                 if (cursor == null){
@@ -111,6 +110,26 @@ public class DatabaseActivity extends Activity implements OnClickListener{
 
 
 
+    private Boolean Check_Empty(){
+        if (!TextUtils.isEmpty(book_name_et.getText())){
+            if (!TextUtils.isEmpty(book_author_et.getText())){
+                if(!TextUtils.isEmpty(book_price_et.getText())){
+                    if (!TextUtils.isEmpty(book_page_et.getText())){
+                        return true;
+                    }else {
+                        Toast.makeText(this, "Please Check !", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(this, "Please Check !", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(this, "Please Check !", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this, "Please Check !", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 
     private void Show_Book(Cursor cursor){
         name = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_NAME));
