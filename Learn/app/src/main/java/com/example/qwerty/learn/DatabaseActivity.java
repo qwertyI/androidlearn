@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,10 +30,11 @@ public class DatabaseActivity extends Activity implements OnClickListener{
     private MyDatabaseHelper dbHelper;
     private Cursor cursor;
     private SQLiteDatabase db;
-    private int Cursor_Id = 0;
+    private int Cursor_Position = 0;
 
     private Button insert_book_btn;
     private Button show_data_btn;
+    private Button delete_data_btn;
     private EditText book_name_et;
     private EditText book_author_et;
     private EditText book_price_et;
@@ -49,15 +51,17 @@ public class DatabaseActivity extends Activity implements OnClickListener{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_database);
         dbHelper = new MyDatabaseHelper(this, TABLE_BOOK, null, DATABASE_VERSION);
-        db = dbHelper.getReadableDatabase();
+        db = dbHelper.getWritableDatabase();
         insert_book_btn = (Button) findViewById(R.id.insert_book_btn);
         show_data_btn = (Button) findViewById(R.id.show_data_btn);
+        delete_data_btn = (Button) findViewById(R.id.delete_data_btn);
         book_name_et = (EditText) findViewById(R.id.book_name_et);
         book_author_et = (EditText) findViewById(R.id.book_author_et);
         book_price_et = (EditText) findViewById(R.id.book_price_et);
         book_page_et = (EditText) findViewById(R.id.book_page_et);
         insert_book_btn.setOnClickListener(this);
         show_data_btn.setOnClickListener(this);
+        delete_data_btn.setOnClickListener(this);
     }
 
     @Override
@@ -68,33 +72,39 @@ public class DatabaseActivity extends Activity implements OnClickListener{
                 author = book_author_et.getText().toString();
                 price = Double.parseDouble(book_price_et.getText().toString());
                 page = Integer.parseInt(book_page_et.getText().toString());
-                Cursor_Id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
-                cursor = null;
-                ContentValues values = new ContentValues();
-                Insert_Book(values, name, author, price, page);
-                Toast.makeText(this, "Insert Success", Toast.LENGTH_SHORT).show();
+                if (name == "" || price+"" == "" || author == "" || page+"" == ""){
+                    Toast.makeText(this, "请填写完整内容", Toast.LENGTH_SHORT).show();
+                }else {
+//                    Cursor_Position = cursor.getPosition();
+//                    cursor = null;
+                    ContentValues values = new ContentValues();
+                    Insert_Book(values, name, author, price, page);
+                    Toast.makeText(this, "Insert Success", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.show_data_btn:
                 if (cursor == null){
                     cursor = db.query("book",null,null,null,null,null,null);
                 }
-                if (Cursor_Id != CURSOR_NO_EXIST){
-                    cursor.moveToPosition(Cursor_Id - 1);
-                    Cursor_Id = CURSOR_NO_EXIST;
+                if (Cursor_Position != CURSOR_NO_EXIST){
+                    cursor.moveToPosition(Cursor_Position);
+                    Cursor_Position = CURSOR_NO_EXIST;
                 }
                 if (cursor.moveToNext()){
-                    name = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_NAME));
-                    author = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_AUTHOR));
-                    String sPrice = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_PRICE));
-                    String sPage = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_PAGE));
-                    Show_Book(name, author, sPrice, sPage);
+                    Show_Book(cursor);
                 }else {
-                    Show_Book("", "", "", "");
                     Toast.makeText(this, "No Nextdata", Toast.LENGTH_SHORT).show();
                     cursor.close();
                     cursor = null;
                 }
-
+                break;
+            case R.id.delete_data_btn:
+                db.delete("book", "id = ?", new String[]{cursor.getString(cursor.getColumnIndex("id"))});
+                cursor.moveToNext();
+                Show_Book(cursor);
+                break;
+            default:
+                break;
         }
     }
 
@@ -102,9 +112,11 @@ public class DatabaseActivity extends Activity implements OnClickListener{
 
 
 
-    private void Show_Book(String name, String author, String  price, String page){
-        String sPrice = price+"";
-        String sPage = page + "";
+    private void Show_Book(Cursor cursor){
+        name = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_NAME));
+        author = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_AUTHOR));
+        String sPrice = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_PRICE));
+        String sPage = cursor.getString(cursor.getColumnIndex(TABLE_BOOK_PAGE));
         book_name_et.setText(name);
         book_author_et.setText(author);
         book_price_et.setText(sPrice);
