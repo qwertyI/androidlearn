@@ -21,6 +21,12 @@
         android:id="@+id/insert_category_btn"
         android:text="@string/insert_category_data"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_data_btn"
+        android:text="@string/show_data"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
