@@ -41,6 +41,10 @@
             android:name=".DatabaseActivity"
             android:label="@string/title_activity_database" >
         </activity>
+        <activity
+            android:name=".GetPerferencesActivity"
+            android:label="@string/title_activity_get_perferences" >
+        </activity>
     </application>
 
 </manifest>

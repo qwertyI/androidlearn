@@ -26,4 +26,8 @@
     <string name="book_page">总页数</string>
     <string name="show_data">显示下一条数据</string>
     <string name="delete_data">删除该记录</string>
+    <string name="title_activity_get_perferences">GetPerferencesActivity</string>
+    <string name="write_gpf">写入gpf</string>
+    <string name="get_gpf">获取gpf</string>
+    <string name="open_gpf">进入GPF</string>
 </resources>

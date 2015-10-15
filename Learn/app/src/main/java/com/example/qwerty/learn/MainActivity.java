@@ -18,6 +18,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button open_chat;
     private Button open_save_file;
     private Button open_database;
+    private Button open_gpf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,13 @@ public class MainActivity extends Activity implements OnClickListener {
         open_chat = (Button) findViewById(R.id.open_chat_btn);
         open_save_file = (Button) findViewById(R.id.open_save_file_btn);
         open_database = (Button) findViewById(R.id.open_database_btn);
+        open_gpf = (Button) findViewById(R.id.open_gpf_btn);
         open_camera.setOnClickListener(this);
         open_my_lv.setOnClickListener(this);
         open_chat.setOnClickListener(this);
         open_save_file.setOnClickListener(this);
         open_database.setOnClickListener(this);
+        open_gpf.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +61,10 @@ public class MainActivity extends Activity implements OnClickListener {
             case R.id.open_database_btn:
                 Intent open_database_intent = new Intent(MainActivity.this, DatabaseActivity.class);
                 startActivity(open_database_intent);
+                break;
+            case R.id.open_gpf_btn:
+                Intent open_gpf_intent = new Intent(MainActivity.this, GetPerferencesActivity.class);
+                startActivity(open_gpf_intent);
                 break;
             default:break;
         }

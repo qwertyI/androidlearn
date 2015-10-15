@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,9 +60,15 @@ public class DatabaseActivity extends Activity implements OnClickListener{
         book_author_et = (EditText) findViewById(R.id.book_author_et);
         book_price_et = (EditText) findViewById(R.id.book_price_et);
         book_page_et = (EditText) findViewById(R.id.book_page_et);
+
+        book_price_et.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        book_page_et.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+
         insert_book_btn.setOnClickListener(this);
         show_data_btn.setOnClickListener(this);
         delete_data_btn.setOnClickListener(this);
+
+        price = Double.parseDouble(book_price_et.getText().toString());
     }
 
     @Override
@@ -74,9 +80,14 @@ public class DatabaseActivity extends Activity implements OnClickListener{
                     author = book_author_et.getText().toString();
                     price = Double.parseDouble(book_price_et.getText().toString());
                     page = Integer.parseInt(book_page_et.getText().toString());
-                    ContentValues values = new ContentValues();
-                    Insert_Book(values, name, author, price, page);
-                    Toast.makeText(this, "Insert Success", Toast.LENGTH_SHORT).show();
+                    if (true){
+                        ContentValues values = new ContentValues();
+                        Insert_Book(values, name, author, price, page);
+                        Toast.makeText(this, "Insert Success", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(this, "Data in the book", Toast.LENGTH_SHORT).show();
+                    }
                 }
 //                    Cursor_Position = cursor.getPosition();
 //                    cursor = null;
@@ -98,9 +109,13 @@ public class DatabaseActivity extends Activity implements OnClickListener{
                 }
                 break;
             case R.id.delete_data_btn:
-                db.delete("book", "id = ?", new String[]{cursor.getString(cursor.getColumnIndex("id"))});
-                cursor.moveToNext();
-                Show_Book(cursor);
+                if(cursor != null){
+                    db.delete("book", "id = ?", new String[]{cursor.getString(cursor.getColumnIndex("id"))});
+                    cursor.moveToNext();
+                    Show_Book(cursor);
+                }else {
+                    Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
@@ -109,6 +124,20 @@ public class DatabaseActivity extends Activity implements OnClickListener{
 
 
 
+    private Boolean Check_In_Book(String name){
+        cursor = db.rawQuery("select * from book where name = ?", new String[]{name});
+
+//        cursor = db.query("book", null, "name = ?", new String[]{name}, null, null, null);
+        Log.i("database", cursor.getPosition()+"");
+        if (cursor.getString(cursor.getColumnIndex("name")) == name){
+            cursor.close();
+            cursor = null;
+            return true;
+        }
+        cursor.close();
+        cursor = null;
+        return false;
+    }
 
     private Boolean Check_Empty(){
         if (!TextUtils.isEmpty(book_name_et.getText())){

@@ -10,6 +10,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "com.example.qwerty.learn.MyInstrumentation"
     }
     buildTypes {
         release {
@@ -22,4 +23,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile files('libs/robotium-solo-5.2.1.jar')
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    compile files('libs/android-junit-report-1.5.8.jar')
 }
