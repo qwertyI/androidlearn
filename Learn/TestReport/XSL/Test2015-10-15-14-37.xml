@@ -1,0 +1,6 @@
+<?xml version='1.0' ?>
+
+<?xml-stylesheet type="text/xsl" href="test.xsl"?>
+
+<testsuites><testsuite><testcase ID="1" classname="com.example.qwerty.learn.MainActivityTest" casename="test_click_chat" time="5.339"><result message="pass">success</result>
+</testcase><testcase ID="2" classname="com.example.qwerty.learn.MainActivityTest" casename="test_click_database" time="5.153"><result message="pass">success</result></testcase><testcase ID="3" classname="com.example.qwerty.learn.MainActivityTest" casename="test_click_file" time="5.157"><result message="pass">success</result></testcase><testcase ID="4" classname="com.example.qwerty.learn.MainActivityTest" casename="test_click_lv" time="5.139"><result message="pass">success</result></testcase></testsuite></testsuites>

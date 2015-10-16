@@ -2,6 +2,9 @@ package com.example.qwerty.learn;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,13 +20,15 @@ public class MyInstrumentation extends
     private Writer mWriter;
     private XmlSerializer mTestSuiteSerializer;
     private long mTestStarted;
+    private String strTime;
+    private String xmlName;
 
     public void onStart() {
         try {
             Date d = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-kk-mm");
-            String strTime = sdf.format(d);
-            String xmlName = "Test" + strTime + ".xml";
+            strTime = sdf.format(d);
+            xmlName = "Test" + strTime + ".xml";
             // 如果被测的应用本身有读写sdcard权限的话级可以直接放在sdcard里面，否则机会失败，
             // 有测试应用源码的情况下是可以在AndroidManifest.xml里添加权限，当然所数情况下是没有源码的，
             // 只能放在被测应用的files目录里了，这个是不需要权限的
@@ -37,6 +42,7 @@ public class MyInstrumentation extends
             // startJUnitOutput(new FileWriter(new File(file, xmlName)));
             startJUnitOutput(new FileWriter(new File(getTargetContext()
                     .getFilesDir(), xmlName)));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -148,6 +154,14 @@ public class MyInstrumentation extends
 
     public void finish(int resultCode, Bundle results) {
         endTestSuites();
+        Log.i("testreport", this.getComponentName().getPackageName());
+        Log.i("testreport", this.getTargetContext().getFilesDir().toString());
+        //报告完成后将xml文件pull到指定文件夹
+        try{
+            Runtime.getRuntime().exec("pull data/data/com.example.qwerty.learn/files/"+xmlName+" d:/git/androidlearn/learn/testreport/" + "\n");
+        }catch (IOException e){
+            e.fillInStackTrace();
+        }
         super.finish(resultCode, results);
     }
 
@@ -158,9 +172,29 @@ public class MyInstrumentation extends
             this.mTestSuiteSerializer.flush();
             this.mWriter.flush();
             this.mWriter.close();
-
+            Log.i("testreport", this.getComponentName().getPackageName());
+            Runtime.getRuntime().exec("cmd /c adb pull data/data/com.example.qwerty.learn/files/"+xmlName+" d:/git/androidlearn/learn/testreport/");
+            //报告完成后将xml文件pull到指定文件夹
+//            suShell("adb pull " + this.getTargetContext().getFilesDir().toString()+"/"+xmlName+" d:/git/androidlearn/learn/testreport/");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void suShell(String cmd) {
+        Process ps = null;
+        DataOutputStream os;
+
+        try {
+            ps = Runtime.getRuntime().exec("su");
+            os = new DataOutputStream(ps.getOutputStream());
+
+            os.writeBytes(cmd + "\n");
+            os.writeBytes("exit\n");
+            os.flush();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }

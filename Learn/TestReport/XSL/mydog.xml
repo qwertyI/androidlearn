@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>  
+
+<?xml-stylesheet type="text/xsl" href="mydog.xsl"?>
+
+<myDogs>  
+   <dog>  
+      <name>Casey</name>  
+      <age>2</age>  
+      <fullBlood>yes</fullBlood>  
+      <color>Yellow</color>  
+      </dog>  
+<dog>  
+      <name breed="999">Casey</name>  
+      <age>2</age>  
+      <fullBlood>yes</fullBlood>  
+      <color>Yellow</color>  
+      </dog>  
+<dog>  
+      <name>Casey</name>  
+      <age>2</age>  
+      <fullBlood>yes</fullBlood>  
+      <color>Yellow</color>  
+      </dog>  
+<dog>  
+      <name>Casey</name>  
+      <age>2</age>  
+      <fullBlood>yes</fullBlood>  
+      <color>Yellow</color>  
+      </dog>  
+</myDogs>

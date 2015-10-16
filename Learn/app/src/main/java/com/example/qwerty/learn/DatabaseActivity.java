@@ -17,6 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 
 public class DatabaseActivity extends Activity implements OnClickListener{
 
@@ -56,6 +59,7 @@ public class DatabaseActivity extends Activity implements OnClickListener{
         insert_book_btn = (Button) findViewById(R.id.insert_book_btn);
         show_data_btn = (Button) findViewById(R.id.show_data_btn);
         delete_data_btn = (Button) findViewById(R.id.delete_data_btn);
+
         book_name_et = (EditText) findViewById(R.id.book_name_et);
         book_author_et = (EditText) findViewById(R.id.book_author_et);
         book_price_et = (EditText) findViewById(R.id.book_price_et);
@@ -67,8 +71,6 @@ public class DatabaseActivity extends Activity implements OnClickListener{
         insert_book_btn.setOnClickListener(this);
         show_data_btn.setOnClickListener(this);
         delete_data_btn.setOnClickListener(this);
-
-        price = Double.parseDouble(book_price_et.getText().toString());
     }
 
     @Override
@@ -93,6 +95,11 @@ public class DatabaseActivity extends Activity implements OnClickListener{
 //                    cursor = null;
                 break;
             case R.id.show_data_btn:
+                try {
+                    Runtime.getRuntime().exec("cmd /c start d://bugreport.txt");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if (cursor == null){
                     cursor = db.query("book",null,null,null,null,null,null);
                 }
@@ -177,6 +184,23 @@ public class DatabaseActivity extends Activity implements OnClickListener{
         values.put("price", price);
         values.put("page", page);
         db.insert("book", null, values);
+    }
+
+    public static void suShell(String cmd) {
+        Process ps = null;
+        DataOutputStream os;
+
+        try {
+            ps = Runtime.getRuntime().exec("su");
+            os = new DataOutputStream(ps.getOutputStream());
+
+            os.writeBytes(cmd + "\n");
+            os.writeBytes("exit\n");
+            os.flush();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 
