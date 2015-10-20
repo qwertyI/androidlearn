@@ -4,16 +4,27 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 public class MyInstrumentation extends
         android.test.InstrumentationTestRunner {
@@ -154,14 +165,6 @@ public class MyInstrumentation extends
 
     public void finish(int resultCode, Bundle results) {
         endTestSuites();
-        Log.i("testreport", this.getComponentName().getPackageName());
-        Log.i("testreport", this.getTargetContext().getFilesDir().toString());
-        //报告完成后将xml文件pull到指定文件夹
-        try{
-            Runtime.getRuntime().exec("pull data/data/com.example.qwerty.learn/files/"+xmlName+" d:/git/androidlearn/learn/testreport/" + "\n");
-        }catch (IOException e){
-            e.fillInStackTrace();
-        }
         super.finish(resultCode, results);
     }
 
@@ -172,10 +175,6 @@ public class MyInstrumentation extends
             this.mTestSuiteSerializer.flush();
             this.mWriter.flush();
             this.mWriter.close();
-            Log.i("testreport", this.getComponentName().getPackageName());
-            Runtime.getRuntime().exec("cmd /c adb pull data/data/com.example.qwerty.learn/files/"+xmlName+" d:/git/androidlearn/learn/testreport/");
-            //报告完成后将xml文件pull到指定文件夹
-//            suShell("adb pull " + this.getTargetContext().getFilesDir().toString()+"/"+xmlName+" d:/git/androidlearn/learn/testreport/");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -197,4 +196,5 @@ public class MyInstrumentation extends
             e.printStackTrace();
         }
     }
+
 }

@@ -36,4 +36,16 @@
         android:id="@+id/open_gpf_btn"
         android:text="@string/open_gpf"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cant_see_it_btn"
+        android:text="kanbujian"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cant_see_it_tv"
+        android:text="kanbujian"/>
+
 </LinearLayout>

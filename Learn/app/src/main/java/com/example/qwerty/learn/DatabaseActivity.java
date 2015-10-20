@@ -95,11 +95,6 @@ public class DatabaseActivity extends Activity implements OnClickListener{
 //                    cursor = null;
                 break;
             case R.id.show_data_btn:
-                try {
-                    Runtime.getRuntime().exec("cmd /c start d://bugreport.txt");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 if (cursor == null){
                     cursor = db.query("book",null,null,null,null,null,null);
                 }

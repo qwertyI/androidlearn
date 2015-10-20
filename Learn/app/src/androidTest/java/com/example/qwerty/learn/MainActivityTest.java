@@ -3,6 +3,11 @@ package com.example.qwerty.learn;
 import android.test.ActivityInstrumentationTestCase2;
 import com.robotium.solo.Solo;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
@@ -48,5 +53,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.sleep(2000);
         solo.goBack();
     }
+
+
 
 }
