@@ -3,6 +3,7 @@ package com.example.qwerty.learn;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
 
+    private NotificationManager mManager;
+
     private Button open_camera;
     private Button open_my_lv;
     private Button open_chat;
@@ -35,6 +38,8 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        Intent serviceIntent = new Intent(this, CalarmService.class);
+        startService(serviceIntent);
         animation = AnimationUtils.loadAnimation(this, R.anim.gradually);
         open_camera = (Button) findViewById(R.id.open_camera_btn);
         open_my_lv = (Button) findViewById(R.id.open_my_lv_btn);
@@ -82,14 +87,9 @@ public class MainActivity extends Activity implements OnClickListener {
                 break;
             case R.id.cant_see_it_btn:
                 csi_tv.startAnimation(animation);
-                NotificationManager mManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-                mBuilder.setContentTitle("My Notify")
-                        .setContentText("Listen to me")
-                        .setTicker("comein=")
-                        .setWhen(System.currentTimeMillis())
-                        .setSmallIcon(R.drawable.comein);
-                mManager.notify(1, mBuilder.build());
+                Intent intent = new Intent();
+                intent.setAction("android.qwerty.learn.timecalarm");
+                this.sendBroadcast(intent);
                 break;
             default:break;
         }

@@ -46,6 +46,12 @@
             android:name=".GetPerferencesActivity"
             android:label="@string/title_activity_get_perferences" >
         </activity>
+
+        <service
+            android:name=".CalarmService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>
