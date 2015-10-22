@@ -1,4 +1,4 @@
-package com.example.qwerty.learn;
+package com.example.qwerty.learn.Activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -16,7 +16,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.example.qwerty.learn.MyDatabaseHelper;
+import com.example.qwerty.learn.R;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -113,8 +114,16 @@ public class DatabaseActivity extends Activity implements OnClickListener{
             case R.id.delete_data_btn:
                 if(cursor != null){
                     db.delete("book", "id = ?", new String[]{cursor.getString(cursor.getColumnIndex("id"))});
-                    cursor.moveToNext();
-                    Show_Book(cursor);
+                    if(cursor.moveToNext()){
+                        Show_Book(cursor);
+                    }else {
+                        book_name_et.setText("");
+                        book_author_et.setText("");
+                        book_price_et.setText("");
+                        book_page_et.setText("");
+                        cursor = null;
+                    }
+
                 }else {
                     Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
                 }

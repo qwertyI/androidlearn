@@ -1,13 +1,13 @@
-package com.example.qwerty.learn;
+package com.example.qwerty.learn.Activity;
 
 import android.app.Activity;
-import android.app.Notification;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +18,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.qwerty.learn.R;
+import com.example.qwerty.learn.Service.CalarmService;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Calendar;
+
 
 public class MainActivity extends Activity implements OnClickListener {
+
+    private static final int INTERVAL = 1000*60*60*24;
 
     private NotificationManager mManager;
 
@@ -38,8 +47,22 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+
         Intent serviceIntent = new Intent(this, CalarmService.class);
         startService(serviceIntent);
+//        serviceIntent.setAction("android.qwerty.learn.secondcalarm");
+//        PendingIntent pendingIntent = PendingIntent.getService(this, 0, serviceIntent, 0);
+//        AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 11);
+//        calendar.set(Calendar.MINUTE, 20);
+//        calendar.set(Calendar.SECOND, 30);
+//        calendar.set(Calendar.MILLISECOND, 0);
+//
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, pendingIntent);
+
         animation = AnimationUtils.loadAnimation(this, R.anim.gradually);
         open_camera = (Button) findViewById(R.id.open_camera_btn);
         open_my_lv = (Button) findViewById(R.id.open_my_lv_btn);
@@ -86,12 +109,39 @@ public class MainActivity extends Activity implements OnClickListener {
                 startActivity(open_gpf_intent);
                 break;
             case R.id.cant_see_it_btn:
+                getName();
                 csi_tv.startAnimation(animation);
                 Intent intent = new Intent();
                 intent.setAction("android.qwerty.learn.timecalarm");
                 this.sendBroadcast(intent);
                 break;
             default:break;
+        }
+    }
+
+    public class FileNameSelector implements FilenameFilter {
+        String extension = ".";
+        public FileNameSelector(String fileExtensionNoDot) {
+            extension += fileExtensionNoDot;
+        }
+
+        public boolean accept(File dir, String name) {
+            return name.endsWith(extension);
+        }
+    }
+
+    public void getName(){
+        File file = Environment.getExternalStorageDirectory();
+
+        if(file != null){
+            File[] files = file.listFiles(new FileNameSelector("ver"));
+            for(int i = 0; i < files.length; ++i){
+                if(files[i].isDirectory()){
+                    getName();
+                }
+                Log.i("alarm-name", files[i].getName());
+                Log.i("alarm-path", files[i].getPath());
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.qwerty.learn;
+package com.example.qwerty.learn.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.example.qwerty.learn.R;
 
 import java.io.BufferedWriter;
 import java.io.File;

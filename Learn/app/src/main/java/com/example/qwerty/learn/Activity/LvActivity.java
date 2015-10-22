@@ -1,4 +1,4 @@
-package com.example.qwerty.learn;
+package com.example.qwerty.learn.Activity;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.example.qwerty.learn.R;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +37,14 @@ public class LvActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_lv);
         getContacts();
-        FruitAdapter adapter = new FruitAdapter(this, R.layout.activity_lv_item, contactList);
-        ListView fruit_lv = (ListView) findViewById(R.id.fruit_lv);
-        fruit_lv.setAdapter(adapter);
-        fruit_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        FruitAdapter lift_adapter = new FruitAdapter(this, R.layout.activity_lv_item, contactList);
+//        FruitAdapter right_adapter = new FruitAdapter(this, R.layout.activity_lv_item, contactList);
+
+        ListView fruit_lift_lv = (ListView) findViewById(R.id.fruit_lift_lv);
+//        ListView fruit_right_lv = (ListView) findViewById(R.id.fruit_right_lv);
+        fruit_lift_lv.setAdapter(lift_adapter);
+//        fruit_right_lv.setAdapter(right_adapter);
+        fruit_lift_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactList.get(position).ContactPhone));

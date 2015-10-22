@@ -1,4 +1,4 @@
-package com.example.qwerty.learn;
+package com.example.qwerty.learn.Activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.qwerty.learn.R;
 
 
 public class GetPerferencesActivity extends Activity implements OnClickListener{

@@ -1,4 +1,4 @@
-package com.example.qwerty.learn;
+package com.example.qwerty.learn.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.qwerty.learn.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
