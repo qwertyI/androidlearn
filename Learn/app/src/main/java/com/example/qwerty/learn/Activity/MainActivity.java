@@ -23,7 +23,9 @@ import com.example.qwerty.learn.Service.CalarmService;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -31,6 +33,8 @@ public class MainActivity extends Activity implements OnClickListener {
     private static final int INTERVAL = 1000*60*60*24;
 
     private NotificationManager mManager;
+    private File file;
+    private List<String> Music = new ArrayList<>();
 
     private Button open_camera;
     private Button open_my_lv;
@@ -48,6 +52,7 @@ public class MainActivity extends Activity implements OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        file = Environment.getExternalStorageDirectory();
 
         Intent serviceIntent = new Intent(this, CalarmService.class);
         startService(serviceIntent);
@@ -109,7 +114,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 startActivity(open_gpf_intent);
                 break;
             case R.id.cant_see_it_btn:
-                getName();
                 csi_tv.startAnimation(animation);
                 Intent intent = new Intent();
                 intent.setAction("android.qwerty.learn.timecalarm");
@@ -119,31 +123,7 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
-    public class FileNameSelector implements FilenameFilter {
-        String extension = ".";
-        public FileNameSelector(String fileExtensionNoDot) {
-            extension += fileExtensionNoDot;
-        }
 
-        public boolean accept(File dir, String name) {
-            return name.endsWith(extension);
-        }
-    }
-
-    public void getName(){
-        File file = Environment.getExternalStorageDirectory();
-
-        if(file != null){
-            File[] files = file.listFiles(new FileNameSelector("ver"));
-            for(int i = 0; i < files.length; ++i){
-                if(files[i].isDirectory()){
-                    getName();
-                }
-                Log.i("alarm-name", files[i].getName());
-                Log.i("alarm-path", files[i].getPath());
-            }
-        }
-    }
 
 
     @Override

@@ -7,6 +7,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -52,6 +61,30 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".Activity.AlarmActivity"
+            android:label="@string/title_activity_alarm" >
+        </activity>
+        <activity
+            android:name=".Activity.MusicActivity"
+            android:icon="@drawable/app_icon_your_company"
+            android:label="@string/title_activity_music"
+            android:logo="@drawable/app_icon_your_company"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.DetailsActivity" />
+        <activity android:name=".PlaybackOverlayActivity" />
+        <activity android:name=".BrowseErrorActivity" />
+        <activity
+            android:name=".Activity.MusciActivity"
+            android:label="@string/title_activity_musci" >
+        </activity>
     </application>
 
 </manifest>
