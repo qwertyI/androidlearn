@@ -10,6 +10,7 @@
     <string name="title_activity_lv">LvActivity</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="message_send_text">发送</string>
+    <string name="title_activity_music">Activity</string>
     <string name="search">搜索</string>
     <string name="title_activity_save_file">SaveFileActivity</string>
     <string name="save_file">保存文件</string>
@@ -70,4 +71,7 @@
     <string name="dismiss_error">Dismiss</string>
     <string name="oops">Oops</string>
     <string name="title_activity_musci">MusciActivity</string>
+    <string name="title_activity_show_download">ShowDownloadActivity</string>
+    <string name="show_download">显示</string>
+    <string name="open_download">打开TASK</string>
 </resources>

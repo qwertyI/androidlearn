@@ -1,10 +1,6 @@
 package com.example.qwerty.learn;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;

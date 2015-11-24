@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button open_database;
     private Button open_gpf;
     private Button cant_see_it;
+    private Button open_download;
     private TextView csi_tv;
     private Animation animation;
 
@@ -77,6 +78,7 @@ public class MainActivity extends Activity implements OnClickListener {
         open_gpf = (Button) findViewById(R.id.open_gpf_btn);
         cant_see_it = (Button) findViewById(R.id.cant_see_it_btn);
         csi_tv = (TextView) findViewById(R.id.cant_see_it_tv);
+        open_download = (Button) findViewById(R.id.open_download_btn);
         open_camera.setOnClickListener(this);
         open_my_lv.setOnClickListener(this);
         open_chat.setOnClickListener(this);
@@ -84,6 +86,7 @@ public class MainActivity extends Activity implements OnClickListener {
         open_database.setOnClickListener(this);
         open_gpf.setOnClickListener(this);
         cant_see_it.setOnClickListener(this);
+        open_download.setOnClickListener(this);
     }
 
     @Override
@@ -118,6 +121,10 @@ public class MainActivity extends Activity implements OnClickListener {
                 Intent intent = new Intent();
                 intent.setAction("android.qwerty.learn.timecalarm");
                 this.sendBroadcast(intent);
+                break;
+            case R.id.open_download_btn:
+                Intent open_download_intent = new Intent(this, ShowDownloadActivity.class);
+                startActivity(open_download_intent);
                 break;
             default:break;
         }

@@ -1,6 +1,8 @@
 package com.example.qwerty.learn;
 
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.example.qwerty.learn.Activity.MainActivity;
 import com.robotium.solo.Solo;
 
 import java.io.BufferedReader;

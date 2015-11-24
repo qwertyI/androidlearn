@@ -85,6 +85,10 @@
             android:name=".Activity.MusciActivity"
             android:label="@string/title_activity_musci" >
         </activity>
+        <activity
+            android:name=".Activity.ShowDownloadActivity"
+            android:label="@string/title_activity_show_download" >
+        </activity>
     </application>
 
 </manifest>
